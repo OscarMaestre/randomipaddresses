@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "randomipaddresses"
+version = "0.0.1"
+authors = [
+  { name="Oscar GG", email="oscar761001@gmail.com" },
+]
+description = "A module to generate random IP addresses"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/OscarMaestre/randomipaddresses"
+"Bug Tracker" = "https://github.com/OscarMaestre/randomipaddresses/issues"
