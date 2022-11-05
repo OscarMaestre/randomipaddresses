@@ -3,19 +3,41 @@ from random import choice, randint
 import ipaddress
 
 class Generator(object):
-    def get_binary_random_ip_address(self):
+    CLASS_A="A"
+    CLASS_B="B"
+    CLASS_C="C"
+    def get_binary_random_ip_address(self, network_class=None):
         choices=[   Helper.generate_class_a_ip_address, 
                     Helper.generate_class_b_ip_address, 
                     Helper.generate_class_c_ip_address, ]
-        (address, prefix_length)=choice(choices)()
+        func_to_execute=None
+        if network_class==None:
+            func_to_execute=choice(choices)
+        if network_class==Generator.CLASS_A:
+            func_to_execute=choices[0]
+        if network_class==Generator.CLASS_B:
+            func_to_execute=choices[1]
+        if network_class==Generator.CLASS_C:
+            func_to_execute=choices[2]
+
+        (address, prefix_length)=func_to_execute()
         return (address, prefix_length)
 
-    def get_random_network_ip_address(self):
-        (address, prefix_length)=self.get_binary_random_ip_address()
+    def get_random_network_ip_address(self, network_class=None):
+        (address, prefix_length)=self.get_binary_random_ip_address(network_class)
         decimal_address=Helper.convert_binary_to_ip(address)
         ip_template="{0}/{1}".format(decimal_address, prefix_length)
         network_address=ipaddress.ip_network(ip_template)
         return network_address
+
+    def get_contiguous_ip_addresses(self, network_class=None):
+        network_address=self.get_random_network_ip_address(network_class)
+        ip_list=list(network_address)
+        return ip_list
+
+    
+
+
 
     
         
@@ -163,6 +185,10 @@ class Tests(unittest.TestCase):
         network_address=g.get_random_network_ip_address()
         #print(network_address)
 
+    def test_addresses_list(self):
+        g=Generator()
+        ip_list=g.get_contiguous_ip_addresses()
+        print(ip_list)
 
 if __name__=="__main__":
     unittest.main()
